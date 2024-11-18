@@ -1198,39 +1198,117 @@ function updateDefaultBitrate() {
   var frameRate = $('#selectFramerate').data('value').toString();
 
   // These quality presets include video resolution like 480p, 720p, 1080p, 1440p, 2160p (4K) and video frame rate like 30 FPS and 60 FPS
-  if (res === "858:480") {
-    if (frameRate === "30") { // 480p, 30 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('2');
-    } else { // 480p, 60 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('4');
+  let bitrate = '10'; // Default value for unrecognized or unspecified conditions
+
+switch (res) {
+  case "858:480":
+    switch (frameRate) {
+      case "30":
+        bitrate = '2';
+        break;
+      case "90":
+        bitrate = '6';
+        break;
+      case "120":
+        bitrate = '10';
+        break;
+      case "144":
+        bitrate = '15';
+        break;
+      default: // 60 FPS or any other value
+        bitrate = '4';
+        break;
     }
-  } else if (res === "1280:720") {
-    if (frameRate === "30") { // 720p, 30 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('5');
-    } else { // 720p, 60 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('10');
+    break;
+
+  case "1280:720":
+    switch (frameRate) {
+      case "30":
+        bitrate = '5';
+        break;
+      case "90":
+        bitrate = '15';
+        break;
+      case "120":
+        bitrate = '20';
+        break;
+      case "144":
+        bitrate = '30';
+        break;
+      default: // 60 FPS or any other value
+        bitrate = '10';
+        break;
     }
-  } else if (res === "1920:1080") {
-    if (frameRate === "30") { // 1080p, 30 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('10');
-    } else { // 1080p, 60 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('20');
+    break;
+
+  case "1920:1080":
+    switch (frameRate) {
+      case "30":
+        bitrate = '10';
+        break;
+      case "90":
+        bitrate = '30';
+        break;
+      case "120":
+        bitrate = '40';
+        break;
+      case "144":
+        bitrate = '50';
+        break;
+      default: // 60 FPS or any other value
+        bitrate = '20';
+        break;
     }
-  } else if (res === "2560:1440") {
-    if (frameRate === "30") { // 1440p, 30 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('20');
-    } else { // 1440p, 60 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('40');
+    break;
+
+  case "2560:1440":
+    switch (frameRate) {
+      case "30":
+        bitrate = '20';
+        break;
+      case "90":
+        bitrate = '60';
+        break;
+      case "120":
+        bitrate = '70';
+        break;
+      case "144":
+        bitrate = '90';
+        break;
+      default: // 60 FPS or any other value
+        bitrate = '40';
+        break;
     }
-  } else if (res === "3840:2160") {
-    if (frameRate === "30") { // 2160p (4K), 30 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('40');
-    } else { // 2160p (4K), 60 FPS
-      $('#bitrateSlider')[0].MaterialSlider.change('80');
+    break;
+
+  case "3840:2160":
+    switch (frameRate) {
+      case "30":
+        bitrate = '40';
+        break;
+      case "90":
+        bitrate = '90';
+        break;
+      case "120":
+        bitrate = '100';
+        break;
+      case "144":
+        bitrate = '120';
+        break;
+      default: // 60 FPS or any other value
+        bitrate = '80';
+        break;
     }
-  } else { // unrecognized option. In case someone screws with the JS to add custom resolutions
-    $('#bitrateSlider')[0].MaterialSlider.change('10');
-  }
+    break;
+
+  default:
+    // Unrecognized resolution
+    bitrate = '10';
+    break;
+}
+
+$('#bitrateSlider')[0].MaterialSlider.change(bitrate);
+
 
   updateBitrateField();
   saveBitrate();
